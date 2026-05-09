@@ -1,6 +1,6 @@
 # softwarefactorydocs Profile Skeleton
 
-This directory is a draft distribution source for a future `softwarefactorydocs` Hermes profile. It is intentionally least-privilege and PR/diff-first: the profile maintains public Software Factory documentation and release notes from release handoff artifacts, but does not mutate sprites, Fly.io infrastructure, pi-sprite workers, production profile distributions, or private operational state by default.
+This directory is the public distribution source for the `softwarefactorydocs` Hermes profile. It is intentionally least-privilege and docs-deployment-aware: the profile maintains public Software Factory documentation and release notes from release handoff artifacts, and it may update the dedicated Software Factory docs sprite/site when a task explicitly identifies that target and requests deployment. It must not mutate unrelated sprites, broad Fly.io infrastructure, pi-sprite workers, production profile distributions, or private operational state.
 
 ## Mission
 
@@ -14,7 +14,7 @@ Maintain public Software Factory documentation as a product surface:
 
 ## Authority boundaries
 
-Default profile authority deliberately excludes unrestricted shell access. `distribution.yaml` allows file/web/search/kanban/skills toolsets only; `terminal` is listed solely as an optional, separately granted local validation capability for running static checks in an isolated workspace. That optional validation capability is not part of default profile authority and does not grant sprite, Fly.io, pi-sprite, or pi-orchestrator mutation.
+Default profile authority deliberately distinguishes scoped authority from no authority. `role-capability-manifest.yaml` is the source of truth for allowed mutation targets, credential rules, canonical workspaces, and completion-vs-handoff criteria.
 
 Allowed by default:
 
@@ -22,30 +22,35 @@ Allowed by default:
 - read docs-ready release packets supplied to the profile,
 - draft docs changes, release notes, changelog entries, and review checklists,
 - produce diffs or pull-request-ready patches,
+- update the dedicated Software Factory docs sprite/site when the task identifies the target and requests deployment,
+- create required before/after checkpoints for that dedicated docs-site mutation,
 - open follow-up work items when evidence is missing or unsafe.
 
 Not allowed by default:
 
-- no sprite create/deploy/checkpoint/mutate operations,
-- no Fly.io commands or sprite service changes,
+- no unrelated sprite create/deploy/checkpoint/mutate operations,
+- no broad Fly.io commands or unrelated sprite service changes,
 - no pi-sprite/pi-orchestrator mutation,
 - no production profile distribution publication,
 - no direct access to raw Kanban databases/workspaces, private logs, memories, sessions, local state, credentials, or private sprite metadata,
 - no direct publishing credentials unless a separate human-approved publication workflow grants narrow docs-repo write access.
 
-If a task requires infrastructure mutation, publication credentials, DNS, or private operational evidence, the docs profile must create a builder/reviewer/PM handoff instead of acting directly.
+If a task expects deployed docs, local PR-ready content alone is not success. If the dedicated docs deployment target is not identified, block with a precise target request instead of guessing.
 
 ## Distribution contents
 
 - `SOUL.md` — role identity, behavior, and hard boundaries.
-- `distribution.yaml` — proposed least-privilege distribution metadata.
+- `distribution.yaml` — profile distribution metadata and owned-file list.
+- `role-capability-manifest.yaml` — machine-readable role authority, credential, target, and completion contract.
 - `skills/public-docs-maintenance/SKILL.md` — reusable operating procedure for docs updates.
 - `templates/release-packet.md` — release-to-docs packet schema.
 - `templates/release-notes.md` — public release notes template.
 - `templates/redaction-checklist.md` — public/private safety review checklist.
 - `templates/docs-freshness-checklist.md` — post-release docs freshness review.
 - `templates/profile-distribution-docs-update-checklist.md` — profile distribution docs update review.
-- `scripts/validate_public_safety.py` — local safety scanner for this skeleton.
+- `templates/role-capability-readiness-checklist.md` — readiness gate for role capability manifests.
+- `scripts/validate_public_safety.py` — local safety scanner for this distribution.
+- `scripts/validate_capability_manifest.py` — readiness scanner for the role capability manifest.
 - `EXCLUSIONS.md` — explicit exclusion policy for generated/public distributions.
 
 ## Required inputs for docs work
@@ -62,14 +67,16 @@ The profile should only consume docs-ready inputs:
 
 1. Validate the release packet has all required fields.
 2. Confirm release approval for public communication.
-3. Draft docs/release-note diffs from user-visible evidence only.
-4. Run redaction and freshness checklists.
-5. Run the public-safety validation script on the proposed docs tree.
-6. Return a diff and checklist evidence; do not publish unless separately authorized.
+3. Load `role-capability-manifest.yaml` and decide whether the task requires deployed docs, PR-ready content, or a handoff.
+4. Draft docs/release-note diffs from user-visible evidence only.
+5. Run redaction and freshness checklists.
+6. Run the public-safety and capability-manifest validation scripts on the proposed docs tree.
+7. If deployment is requested and the target is identified, update the dedicated docs site with before/after checkpoints and verify the public page.
+8. Return diffs, checklist evidence, validation summaries, and deployed URL/status when applicable.
 
 ## Installation status
 
-This is a skeleton artifact only. It is not published externally and has not been installed into a production Hermes profile distribution by this task.
+This repository is the source-controlled public `softwarefactorydocs` profile distribution. Runtime profile installs should use `hermes profile install` / `hermes profile update` from this repository so `SOUL.md`, `role-capability-manifest.yaml`, templates, and validation scripts stay in sync.
 
 ## Publication provenance
 

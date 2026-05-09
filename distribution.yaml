@@ -1,9 +1,10 @@
 name: softwarefactorydocs
 version: 0.1.0
-status: draft-skeleton
-purpose: Maintain public Software Factory documentation and release notes from approved, public-safe release handoff artifacts.
+status: published-profile
+purpose: Maintain and deploy public Software Factory documentation and release notes from approved, public-safe release handoff artifacts.
 least_privilege: true
-publication_status: not_published
+publication_status: published_profile_distribution
+role_capability_manifest: role-capability-manifest.yaml
 allowed_toolsets:
   - file
   - web
@@ -11,10 +12,9 @@ allowed_toolsets:
   - kanban
   - skills
 validation_capabilities:
-  # Not default profile authority. Grant only in a separate local validation run.
   optional_toolsets:
     - terminal
-  purpose: Run local static validation scripts in an isolated workspace only; never grants sprite/Fly/pi-sprite mutation authority.
+  purpose: Run local static validation scripts in an isolated workspace and checkpointed dedicated docs-site deployments only when explicitly task-scoped.
 recommended_skills:
   - public-docs-maintenance
 templates:
@@ -23,13 +23,31 @@ templates:
   - templates/redaction-checklist.md
   - templates/docs-freshness-checklist.md
   - templates/profile-distribution-docs-update-checklist.md
+  - templates/role-capability-readiness-checklist.md
 explicitly_excluded_authority:
-  - sprite-create-deploy-checkpoint-mutate
-  - fly-infrastructure-mutation
+  - unrelated-sprite-create-deploy-checkpoint-mutate
+  - broad-fly-infrastructure-mutation
   - pi-sprite-mutation
   - pi-orchestrator-mutation
   - production-profile-distribution-publication
   - raw-kanban-database-access
   - private-memory-session-log-access
   - credential-or-secret-access
-required_publication_gate: Separate human-approved publication task required before external publishing or production profile rollout.
+required_publication_gate: Dedicated docs sprite/site deployment is allowed only when the task identifies the target and requests deployment; otherwise produce a docs handoff or block on ambiguity.
+distribution_owned:
+  - README.md
+  - SOUL.md
+  - LICENSE
+  - RELEASE_NOTES.md
+  - EXCLUSIONS.md
+  - distribution.yaml
+  - role-capability-manifest.yaml
+  - skills/public-docs-maintenance/
+  - templates/release-packet.md
+  - templates/release-notes.md
+  - templates/redaction-checklist.md
+  - templates/docs-freshness-checklist.md
+  - templates/profile-distribution-docs-update-checklist.md
+  - templates/role-capability-readiness-checklist.md
+  - scripts/validate_public_safety.py
+  - scripts/validate_capability_manifest.py

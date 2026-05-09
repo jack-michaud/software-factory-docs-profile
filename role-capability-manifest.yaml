@@ -1,0 +1,65 @@
+schema_version: 1
+role: softwarefactorydocs
+profile_distribution: software-factory-docs-profile
+purpose: Maintain and deploy public Software Factory documentation from approved public-safe release handoffs.
+
+role_authority:
+  summary: Scoped docs authority, not no authority.
+  allowed_mutation_targets:
+    - id: public_docs_repository
+      kind: git_repository
+      canonical_target: https://github.com/jack-michaud/software-factory
+      allowed_paths:
+        - README.md
+        - CHANGELOG.md
+        - docs/
+      notes: Public documentation content only. Do not publish credentials, task internals, raw logs, local paths, or private operational metadata.
+    - id: dedicated_docs_sprite_site
+      kind: sprite_or_docs_site
+      canonical_target: task-provided dedicated Software Factory docs sprite/site
+      required_before_mutation:
+        - A human/PM/release task explicitly identifies the docs sprite/site name or public deployment target.
+        - A pre-change checkpoint is created when mutating a sprite.
+        - Proposed docs content has passed public/private redaction and public-safety validation.
+      required_after_mutation:
+        - The deployed public docs page is checked directly.
+        - A post-change checkpoint is created when a sprite was mutated.
+      notes: This role may update only the dedicated docs sprite/site. It must not create, deploy, checkpoint, or mutate unrelated sprites.
+  explicitly_not_allowed:
+    - mutate unrelated sprites or Fly.io infrastructure
+    - run pi-sprite or pi-orchestrator mutation tasks
+    - publish production profile distributions
+    - read raw Kanban databases, private logs, memories, sessions, credentials, or local profile state
+    - expose task IDs, raw logs, local paths, private sprite URLs, or operational metadata in public content
+
+credentials:
+  required: []
+  optional: []
+  forbidden_to_print:
+    - any environment variable value
+    - OAuth tokens, API keys, SSH keys, sprite credentials, and profile .env values
+
+canonical_workspaces:
+  source_repo: https://github.com/jack-michaud/software-factory-docs-profile
+  public_docs_repo: https://github.com/jack-michaud/software-factory
+  local_task_workspace: HERMES_KANBAN_WORKSPACE
+
+completion_contract:
+  done_when:
+    - Documentation changes are committed/proposed in the public docs repo or applied to the task-scoped docs workspace.
+    - If the task requests public deployment, the deployed docs site is updated and verified; local PR-ready content alone is not success.
+    - Redaction/public-safety checks pass and evidence is included.
+    - Any sprite mutation includes before/after checkpoint identifiers in the handoff without leaking private state.
+  handoff_when:
+    - The task explicitly asks only for a PR-ready patch or content packet.
+    - Publication credentials or repository write permissions are required but were not granted.
+    - A reviewer/publisher approval gate is required by the task.
+  block_when:
+    - The deployment target is not identified for a task that expects a deployed docs update.
+    - Redaction or publication safety is ambiguous.
+    - Required release evidence is missing.
+
+readiness_smoke_tests:
+  - python3 scripts/validate_capability_manifest.py .
+  - python3 scripts/validate_public_safety.py .
+  - test -f templates/role-capability-readiness-checklist.md

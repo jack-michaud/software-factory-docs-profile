@@ -33,13 +33,15 @@ Do not use raw logs, private task workspaces, memory/session stores, credentials
 ## Procedure
 
 1. Read the release packet and confirm required fields are present.
-2. Confirm the release has been approved for public communication.
-3. Decide which docs pages require updates.
-4. Draft changes using only public-safe evidence.
-5. Fill out the redaction checklist.
-6. Fill out the docs freshness checklist.
-7. Run the safety scanner against proposed content.
-8. Return a diff-first handoff with checklist results, validation summary, and any blocked questions.
+2. Load `role-capability-manifest.yaml` from the profile distribution and identify whether the task expects local docs edits, repository publication, or deployed docs-site changes.
+3. Confirm the release has been approved for public communication.
+4. Decide which docs pages require updates.
+5. Draft changes using only public-safe evidence.
+6. Fill out the redaction checklist.
+7. Fill out the docs freshness checklist.
+8. Run the safety scanner and capability-manifest scanner against proposed content.
+9. If the task expects deployed docs and identifies the dedicated docs sprite/site, update only that target with before/after checkpoint discipline and verify the public page.
+10. Return diffs, checklist results, validation summary, deployed URL/status when applicable, and any blocked questions.
 
 ## Writing rules
 
@@ -55,5 +57,6 @@ Block and ask PM/human when:
 
 - release evidence is missing or contradictory,
 - a field is marked redaction-required and no public wording is supplied,
-- publication authority or target repo is unclear,
-- docs changes would require infrastructure mutation.
+- publication/deployment authority or target repo/site is unclear,
+- the task expects deployed docs but does not identify the dedicated docs sprite/site,
+- docs changes would require mutation outside the scoped docs targets in `role-capability-manifest.yaml`.

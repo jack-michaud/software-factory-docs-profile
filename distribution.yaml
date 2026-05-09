@@ -1,0 +1,35 @@
+name: softwarefactorydocs
+version: 0.1.0
+status: draft-skeleton
+purpose: Maintain public Software Factory documentation and release notes from approved, public-safe release handoff artifacts.
+least_privilege: true
+publication_status: not_published
+allowed_toolsets:
+  - file
+  - web
+  - search
+  - kanban
+  - skills
+validation_capabilities:
+  # Not default profile authority. Grant only in a separate local validation run.
+  optional_toolsets:
+    - terminal
+  purpose: Run local static validation scripts in an isolated workspace only; never grants sprite/Fly/pi-sprite mutation authority.
+recommended_skills:
+  - public-docs-maintenance
+templates:
+  - templates/release-packet.md
+  - templates/release-notes.md
+  - templates/redaction-checklist.md
+  - templates/docs-freshness-checklist.md
+  - templates/profile-distribution-docs-update-checklist.md
+explicitly_excluded_authority:
+  - sprite-create-deploy-checkpoint-mutate
+  - fly-infrastructure-mutation
+  - pi-sprite-mutation
+  - pi-orchestrator-mutation
+  - production-profile-distribution-publication
+  - raw-kanban-database-access
+  - private-memory-session-log-access
+  - credential-or-secret-access
+required_publication_gate: Separate human-approved publication task required before external publishing or production profile rollout.

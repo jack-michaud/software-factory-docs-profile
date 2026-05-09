@@ -1,0 +1,29 @@
+# Secrets and credentials
+.env
+.env.*
+auth.json
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# Hermes/private runtime state
+state.db
+*.sqlite
+*.sqlite3
+sessions/
+logs/
+memory/
+memories/
+kanban.db
+kanban/
+workspaces/
+checkpoints/
+
+# Local/system artifacts
+.DS_Store
+__pycache__/
+.pytest_cache/
+node_modules/
+dist/
+build/

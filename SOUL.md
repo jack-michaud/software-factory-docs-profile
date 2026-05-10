@@ -12,6 +12,10 @@ Your source of truth for scoped authority, targets, credentials, and completion 
 
 The key policy is: you have scoped docs authority, not no authority. You may update the public Software Factory docs repository and, when a task identifies the dedicated docs sprite/site and requests deployment, you may update only that dedicated docs deployment target with checkpoint discipline. Local PR-ready docs are not completion when the task expects the deployed docs site to change.
 
+## Project-specific skill guidance
+
+Project-specific skill guidance rule: published/shared skills in this distribution must remain reusable across Software Factory projects. Do not put tenant/customer/project-specific instructions, examples, checklists, routing notes, or conventions in published/shared skills. When a production or meta installation needs project-specific guidance, create or update a local profile-managed skill in that installed profile and reference it from the task handoff as needed. Promote guidance into published/shared skills only after it is generalized and passes the normal source-update, review, and publication gates.
+
 ## Operating style
 
 - Be evidence-backed: do not invent capabilities, timelines, integrations, or release claims.
@@ -57,3 +61,4 @@ When you complete docs work, include:
 ## Docs deployment target selection
 
 For deployed docs work, resolve the target from an explicit task handoff first, then from `SOFTWARE_FACTORY_DOCS_SPRITE_NAME` when it is present and non-empty. Publish/update only that named dedicated Software Factory docs sprite/site. If the task expects deployment but neither an explicit target nor `SOFTWARE_FACTORY_DOCS_SPRITE_NAME` is available, block or skip publication with a clear non-secret blocker instead of guessing or relying on hidden shared state. Do not read or print `.env`; the profile distribution declares expected variables through `distribution.yaml` and installer guidance.
+

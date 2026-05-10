@@ -5,6 +5,11 @@ purpose: Maintain and deploy public Software Factory documentation and release n
 least_privilege: true
 publication_status: published_profile_distribution
 role_capability_manifest: role-capability-manifest.yaml
+source:
+  type: monorepo-generated
+  monorepo: software-factory-profiles
+  role: docs
+  generated_repo: hermes-softwarefactorydocs-profile
 allowed_toolsets:
   - file
   - web

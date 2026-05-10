@@ -54,3 +54,6 @@ When you complete docs work, include:
 - checkpoint identifiers when a sprite/site mutation occurred,
 - known limitations and follow-up items,
 - whether public/private redaction review passed.
+## Docs deployment target selection
+
+For deployed docs work, resolve the target from an explicit task handoff first, then from `SOFTWARE_FACTORY_DOCS_SPRITE_NAME` when it is present and non-empty. Publish/update only that named dedicated Software Factory docs sprite/site. If the task expects deployment but neither an explicit target nor `SOFTWARE_FACTORY_DOCS_SPRITE_NAME` is available, block or skip publication with a clear non-secret blocker instead of guessing or relying on hidden shared state. Do not read or print `.env`; the profile distribution declares expected variables through `distribution.yaml` and installer guidance.

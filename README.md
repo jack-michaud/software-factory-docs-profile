@@ -35,7 +35,7 @@ Not allowed by default:
 - no direct access to raw Kanban databases/workspaces, private logs, memories, sessions, local state, credentials, or private sprite metadata,
 - no direct publishing credentials unless a separate human-approved publication workflow grants narrow docs-repo write access.
 
-If a task expects deployed docs, local PR-ready content alone is not success. If the dedicated docs deployment target is not identified, block with a precise target request instead of guessing.
+If a task expects deployed docs, local PR-ready content alone is not success. Resolve the dedicated docs deployment target from an explicit task handoff or `SOFTWARE_FACTORY_DOCS_SPRITE_NAME`; if neither is available, block with a precise target request instead of guessing.
 
 ## Distribution contents
 
@@ -72,7 +72,7 @@ The profile should only consume docs-ready inputs:
 4. Draft docs/release-note diffs from user-visible evidence only.
 5. Run redaction and freshness checklists.
 6. Run the public-safety and capability-manifest validation scripts on the proposed docs tree.
-7. If deployment is requested and the target is identified, update the dedicated docs site with before/after checkpoints and verify the public page.
+7. If deployment is requested, resolve the target from an explicit task handoff or `SOFTWARE_FACTORY_DOCS_SPRITE_NAME`, update only that dedicated docs site with before/after checkpoints, and verify the public page.
 8. Return diffs, checklist evidence, validation summaries, and deployed URL/status when applicable.
 
 ## Installation status
@@ -102,3 +102,6 @@ Generated manifest: distribution.yaml
 License: MPL-2.0
 
 This repository is the generated Software Factory documentation-agent profile distribution. File issues and feature requests on https://github.com/jack-michaud/software-factory.
+## Optional docs deployment target
+
+This distribution declares `SOFTWARE_FACTORY_DOCS_SPRITE_NAME` as an optional env var. Set it in the installed profile's user-owned `.env` when deployed docs tasks should publish/update a dedicated docs sprite. For this environment the expected non-secret value is `hermes-sf-docs`. If deployment is requested and neither a task-supplied target nor this env var is available, the docs profile must block or skip publication instead of guessing. Distribution installs/updates must not overwrite `.env`.

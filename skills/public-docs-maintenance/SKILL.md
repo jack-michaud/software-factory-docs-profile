@@ -40,8 +40,9 @@ Do not use raw logs, private task workspaces, memory/session stores, credentials
 6. Fill out the redaction checklist.
 7. Fill out the docs freshness checklist.
 8. Run the safety scanner and capability-manifest scanner against proposed content.
-9. If the task expects deployed docs and identifies the dedicated docs sprite/site, update only that target with before/after checkpoint discipline and verify the public page.
-10. Return diffs, checklist results, validation summary, deployed URL/status when applicable, and any blocked questions.
+9. If the task expects deployed docs, resolve the target from an explicit task handoff first, then from `SOFTWARE_FACTORY_DOCS_SPRITE_NAME` when it is present and non-empty. Update only that named dedicated docs sprite/site with before/after checkpoint discipline and verify the public page.
+10. If deployed docs are expected but no explicit target and no `SOFTWARE_FACTORY_DOCS_SPRITE_NAME` value is available, block or skip publication with a clear non-secret blocker instead of guessing.
+11. Return diffs, checklist results, validation summary, target source/value when non-secret, deployed URL/status when applicable, and any blocked questions.
 
 ## Writing rules
 
@@ -57,6 +58,6 @@ Block and ask PM/human when:
 
 - release evidence is missing or contradictory,
 - a field is marked redaction-required and no public wording is supplied,
-- publication/deployment authority or target repo/site is unclear,
+- publication/deployment authority or target repo/site is unclear, including absence of both an explicit target and `SOFTWARE_FACTORY_DOCS_SPRITE_NAME`,
 - the task expects deployed docs but does not identify the dedicated docs sprite/site,
 - docs changes would require mutation outside the scoped docs targets in `role-capability-manifest.yaml`.

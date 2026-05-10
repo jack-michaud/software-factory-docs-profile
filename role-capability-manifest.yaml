@@ -16,9 +16,9 @@ role_authority:
       notes: Public documentation content only. Do not publish credentials, task internals, raw logs, local paths, or private operational metadata.
     - id: dedicated_docs_sprite_site
       kind: sprite_or_docs_site
-      canonical_target: task-provided dedicated Software Factory docs sprite/site
+      canonical_target: explicit task-provided target or SOFTWARE_FACTORY_DOCS_SPRITE_NAME value
       required_before_mutation:
-        - A human/PM/release task explicitly identifies the docs sprite/site name or public deployment target.
+        - A human/PM/release task explicitly identifies the docs sprite/site name, or SOFTWARE_FACTORY_DOCS_SPRITE_NAME is present and non-empty.
         - A pre-change checkpoint is created when mutating a sprite.
         - Proposed docs content has passed public/private redaction and public-safety validation.
       required_after_mutation:
@@ -34,10 +34,12 @@ role_authority:
 
 credentials:
   required: []
-  optional: []
+  optional:
+    - name: SOFTWARE_FACTORY_DOCS_SPRITE_NAME
+      description: Optional dedicated Software Factory docs sprite name used only when deployed docs publication is requested.
   forbidden_to_print:
-    - any environment variable value
-    - OAuth tokens, API keys, SSH keys, sprite credentials, and profile .env values
+    - secret environment variable values and unrelated environment values
+    - OAuth tokens, API keys, SSH keys, sprite credentials, and raw profile .env contents
 
 canonical_workspaces:
   source_repo: https://github.com/jack-michaud/software-factory-docs-profile
@@ -55,7 +57,7 @@ completion_contract:
     - Publication credentials or repository write permissions are required but were not granted.
     - A reviewer/publisher approval gate is required by the task.
   block_when:
-    - The deployment target is not identified for a task that expects a deployed docs update.
+    - The deployment target is not identified by explicit task handoff and SOFTWARE_FACTORY_DOCS_SPRITE_NAME is absent or empty for a task that expects a deployed docs update.
     - Redaction or publication safety is ambiguous.
     - Required release evidence is missing.
 

@@ -38,7 +38,12 @@ explicitly_excluded_authority:
   - raw-kanban-database-access
   - private-memory-session-log-access
   - credential-or-secret-access
-required_publication_gate: Dedicated docs sprite/site deployment is allowed only when the task identifies the target and requests deployment; otherwise produce a docs handoff or block on ambiguity.
+required_publication_gate: Dedicated docs sprite/site deployment is allowed only when the task requests deployment and identifies a target explicitly or SOFTWARE_FACTORY_DOCS_SPRITE_NAME is present; otherwise produce a docs handoff or block on ambiguity.
+env_requires:
+  - name: SOFTWARE_FACTORY_DOCS_SPRITE_NAME
+    description: "Optional dedicated Software Factory docs sprite name to publish/update when a task requests deployed docs; set to hermes-sf-docs for this environment."
+    required: false
+    default: ""
 distribution_owned:
   - README.md
   - SOUL.md

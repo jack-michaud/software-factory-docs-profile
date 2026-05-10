@@ -9,7 +9,7 @@ source:
   type: monorepo-generated
   monorepo: software-factory-profiles
   role: docs
-  generated_repo: hermes-softwarefactorydocs-profile
+  generated_repo: software-factory-docs-profile
 allowed_toolsets:
   - file
   - web

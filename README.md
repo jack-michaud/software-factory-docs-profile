@@ -41,6 +41,7 @@ If a task expects deployed docs, local PR-ready content alone is not success. If
 
 - `SOUL.md` — role identity, behavior, and hard boundaries.
 - `distribution.yaml` — profile distribution metadata and owned-file list.
+- `config.yaml` — pins the public distribution model/provider/api-mode (`gpt-5.5`, `openai-codex`, `chat_completions`). This docs profile intentionally does not configure `skills.external_dirs`; its authority and local skills remain limited to `SOUL.md`, `role-capability-manifest.yaml`, and `skills/public-docs-maintenance/`.
 - `role-capability-manifest.yaml` — machine-readable role authority, credential, target, and completion contract.
 - `skills/public-docs-maintenance/SKILL.md` — reusable operating procedure for docs updates.
 - `templates/release-packet.md` — release-to-docs packet schema.
@@ -77,6 +78,19 @@ The profile should only consume docs-ready inputs:
 ## Installation status
 
 This repository is the source-controlled public `softwarefactorydocs` profile distribution. Runtime profile installs should use `hermes profile install` / `hermes profile update` from this repository so `SOUL.md`, `role-capability-manifest.yaml`, templates, and validation scripts stay in sync.
+
+
+Install after publication:
+
+```bash
+hermes profile install https://github.com/jack-michaud/software-factory-docs-profile.git --name softwarefactorydocs
+```
+
+Update after publication:
+
+```bash
+hermes profile update softwarefactorydocs --yes
+```
 
 ## Publication provenance
 

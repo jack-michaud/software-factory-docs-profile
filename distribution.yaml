@@ -37,6 +37,7 @@ required_publication_gate: Dedicated docs sprite/site deployment is allowed only
 distribution_owned:
   - README.md
   - SOUL.md
+  - config.yaml
   - LICENSE
   - RELEASE_NOTES.md
   - EXCLUSIONS.md

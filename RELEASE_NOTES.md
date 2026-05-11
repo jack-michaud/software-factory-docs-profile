@@ -15,5 +15,6 @@ Branch protection is intentionally deferred for v0 by human decision.
 
 ## Unreleased
 
+- Switched the docs profile default model to the approved GPT-5.3 Codex Spark pilot coordinate (`gpt-5.3-codex-spark` via `openai-codex` with `chat_completions`) while preserving the existing docs role authority boundaries.
 - Restructured `SOUL.md` into an actual progressive-disclosure root map with detailed conditional role doctrine moved to `references/role-operating-guidance.md` and distribution-managed reference wiring.
 - Added progressive-disclosure Kanban task-spec guidance so root profile instructions remain concise maps while detailed PM/task-writing doctrine lives in linked references with explicit `When X, read Y` triggers. The guidance defines required task fields, evidence-linked acceptance criteria, and role-specific routing for future maintainers.

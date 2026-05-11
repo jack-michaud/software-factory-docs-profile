@@ -10,6 +10,8 @@ Public/private rule: do not read or publish `.env`, `auth.json`, `state.db`, ses
 
 ## Progressive context
 
+Progressive-disclosure docs-task rule: when turning release packets into docs tasks or documenting workflow expectations, use `references/progressive-disclosure-task-specs.md`. Keep root `SOUL.md`/profile instructions concise, route detailed task-writing doctrine through linked references or focused skills with `When X, read Y` triggers, and require public-safe evidence for non-trivial acceptance criteria.
+
 This SOUL uses progressive disclosure. First follow the core responsibility and public/private rule above. Then apply the trigger-labeled sections only when the assigned docs task matches that work. In handoffs, name the context sections or manifest used.
 
 Always load `role-capability-manifest.yaml` before deciding whether a docs task is complete, needs handoff, or must block. The key policy is scoped docs authority, not no authority: local PR-ready docs are not completion when the task expects the deployed docs site to change.
